@@ -17,9 +17,10 @@ def upload_item():
     if file_ext[1] not in allowed_ext:
         return {"message": "Formato não suportado"}, 415
     if file_size > 1 * 1000 * 1000:
-        return {"message": "Tamanho não suportado"}, 413
+        return {"message": "Tamanho grandão"}, 413
     if file_name in folder_file:
         return {"message": "Arquivo já existe"}, 409
+        
     else:
         with open(f'./file', 'wb') as f:
             f.write(request.data)
@@ -30,8 +31,10 @@ def upload_item():
 
 
 def list_files():
-    files = os.walk('./files_directory')
-    response = jsonify(*files)
+    files_png = os.listdir(f'{png_ext}')
+    files_jpg = os.listdir(f'{jpg_ext}')
+    files_gif = os.listdir(f'{gif_ext}')
+    response = jsonify(files_png, files_jpg, files_gif)
     return response, 200
 
 
