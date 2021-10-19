@@ -13,11 +13,11 @@ def upload_item():
     file_name = str(request.files['file'].filename)
     file_ext = str(request.files['file'].filename).split(".")
     file_size = len(request.files['file'].read())
-    folder_file = os.listdir(f'./files_directory/{file_ext[1]}')
     if file_ext[1] not in allowed_ext:
         return {"message": "Formato não suportado"}, 415
     if file_size > 1 * 1000 * 1000:
-        return {"message": "Tamanho grandão"}, 413
+        return {"message": "Tamanho não suportado"}, 413
+    folder_file = os.listdir(f'./files_directory/{file_ext[1]}')
     if file_name in folder_file:
         return {"message": "Arquivo já existe"}, 409
         
