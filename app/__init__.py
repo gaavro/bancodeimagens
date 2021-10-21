@@ -1,35 +1,28 @@
 from flask import Flask
-import os
-from kenzie import make_directory
-from kenzie.image import download, download_zip, list_by_type, list_files, upload_item
-
+from .kenzie import set_directories
+from .kenzie.image import list_by_extension, list_all_files, download_zip, download_file, upload_file
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 1*1000*1000
 
-
-make_directory()
-
-
-@app.post('/upload')
-def upload():
-    return upload_item()
-
-
-@app.get('/files')
-def files():
-    return list_files()
-
-
-@app.get('/files/<ext>')
-def list_files_by_extension():
-    return list_by_type()
-
+set_directories()
 
 @app.get('/download/<file_name>')
-def download_file_name(file_name):
-    return download(file_name)
-
+def download(file_name):
+    return download_file(file_name)
 
 @app.get('/download-zip')
 def download_dir_as_zip():
     return download_zip()
+
+@app.get('/files')
+def list_files():
+    return list_all_files()
+
+@app.get('/files/<extension>')
+def list_files_by_extension(extension):
+    return list_by_extension(extension)
+    
+@app.post('/upload')
+def upload():
+    return upload_file()

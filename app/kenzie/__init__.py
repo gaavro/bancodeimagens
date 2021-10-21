@@ -1,6 +1,6 @@
 import os
 
-def make_directory():
+def set_directories():
     if os.path.exists('./files_directory'):
         pass
     else:
